@@ -1,0 +1,55 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "rooms": {
+      "$pin": {
+        ".read": "auth != null && $pin.matches(/^[0-9]{4}$/)",
+        ".write": "auth != null && !newData.exists() && data.child('meta/hostUid').val() === auth.uid",
+        "meta": {
+          ".write": "auth != null && $pin.matches(/^[0-9]{4}$/) && (!data.exists() || data.child('hostUid').val() === auth.uid || data.child('createdAt').val() < now - 86400000)",
+          ".validate": "newData.hasChildren(['hostUid', 'createdAt', 'session', 'status']) && newData.child('hostUid').val() === auth.uid",
+          "hostUid": { ".validate": "newData.isString()" },
+          "createdAt": { ".validate": "newData.isNumber() && newData.val() <= now + 600000" },
+          "session": { ".validate": "newData.isString() && newData.val().length <= 20" },
+          "status": { ".validate": "newData.val() === 'lobby' || newData.val() === 'playing' || newData.val() === 'ended'" },
+          "$other": { ".validate": false }
+        },
+        "s": {
+          "$session": {
+            "players": {
+              "$uid": {
+                ".write": "auth != null && auth.uid === $uid",
+                ".validate": "newData.hasChildren(['nick', 'money', 'day', 'status'])",
+                "nick": { ".validate": "newData.isString() && newData.val().length <= 24" },
+                "avatar": { ".validate": "newData.isString() && newData.val().length <= 8" },
+                "money": { ".validate": "newData.isNumber() && newData.val() > -100000000 && newData.val() < 100000000" },
+                "day": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10" },
+                "status": { ".validate": "newData.val() === 'playing' || newData.val() === 'ended'" },
+                "ending": { ".validate": "newData.isString() && newData.val().length <= 12" },
+                "persona": { ".validate": "newData.isString() && newData.val().length <= 12" },
+                "joinedAt": { ".validate": "newData.isNumber()" },
+                "updatedAt": { ".validate": "newData.isNumber()" },
+                "$other": { ".validate": false }
+              }
+            },
+            "choices": {
+              "$uid": {
+                "$day": {
+                  ".write": "auth != null && auth.uid === $uid && !data.exists()",
+                  ".validate": "$day.matches(/^([1-9]|10)$/) && newData.hasChildren(['h', 't', 'a', 'fc', 'money'])",
+                  "h": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 2" },
+                  "t": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 2" },
+                  "a": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 2" },
+                  "fc": { ".validate": "newData.isBoolean()" },
+                  "money": { ".validate": "newData.isNumber()" },
+                  "$other": { ".validate": false }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

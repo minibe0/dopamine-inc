@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>도파민 주식회사 · DOPAMINE INC.</title>
+  <meta name="description" content="조회수를 좇을수록 무너지는 미디어 회사 경영 시뮬레이션 — 중학생 미디어 리터러시 게임">
+  <meta name="theme-color" content="#121212">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <main class="screen boot"><div class="logo"><span class="logo-top">DOPAMINE</span><span class="logo-bot">INC.</span></div><p class="tagline">불러오는 중…</p></main>
+  </div>
+  <noscript><p class="notice">이 게임은 자바스크립트가 필요해요.</p></noscript>
+  <script>
+    // 파일을 더블클릭해서 열면 동작하지 않음 → 안내
+    if (location.protocol === 'file:') {
+      document.getElementById('app').innerHTML = '<main class="screen"><div class="card"><h2>🌐 웹 주소로 열어 주세요</h2><p>이 게임은 GitHub Pages 주소(https://…)로 열어야 해요. 컴퓨터에서 바로 테스트하려면 README의 “내 컴퓨터에서 테스트” 방법을 따라 주세요.</p></div></main>';
+    } else {
+      setTimeout(function () {
+        if (!window.__dopaBooted) {
+          var d = document.createElement('div'); d.id = 'boot-fail'; d.className = 'toast toast-bad show';
+          d.innerHTML = '불러오기가 늦어지고 있어요. 새로고침해 보세요 🙏'; document.body.appendChild(d);
+        }
+      }, 9000);
+    }
+  </script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
