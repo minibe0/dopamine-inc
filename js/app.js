@@ -130,23 +130,40 @@ function renderHowto() {
   const cls = S.mode === 'class';
   show(`
   <main class="screen howto">
-    <h2 class="title">게임 방법 <span class="pill">30초 컷</span></h2>
-    <ol class="steps">
-      <li class="card step pop" style="--d:0"><b>1</b><span class="step-emoji">📨</span><p>매일 학교 소식 <b>제보</b>가 와요</p></li>
-      <li class="card step pop" style="--d:1"><b>2</b><span class="step-emoji">🧩</span><p>헤드라인·썸네일·타겟을 골라 <b>발행!</b><br><small>🔥가 많을수록 조회수 ↑</small></p></li>
-      <li class="card step pop" style="--d:2"><b>3</b><span class="step-emoji">🏁</span><p><b>10일</b> 버티고 돈 1등 하면 승리</p></li>
-    </ol>
+    <h2 class="title">게임 방법 <span class="pill">30초</span></h2>
+
+    <section class="card how-goal pop">
+      <span class="step-emoji">🎯</span>
+      <p>나는 학교 뉴스 채널 <b>편집장</b>.<br>게임 속 <b>10일</b> 동안 기사를 내서 <b>돈을 제일 많이</b> 벌면 승리!<br><small>⏱️ 게임 속 하루 = 약 1분 · 한 판 = 약 10분</small></p>
+    </section>
+
+    <section class="card how-day pop" style="--d:1">
+      <h3>하루에 할 일은 딱 이것</h3>
+      <div class="how-flow">
+        <div><span>📨</span><b>소식 도착</b></div><i>→</i>
+        <div><span>👆</span><b>3개 고르기</b><small>제목 · 사진 · 누구에게</small></div><i>→</i>
+        <div><span>🚀</span><b>발행</b></div>
+      </div>
+    </section>
+
+    <section class="card how-rule pop" style="--d:2">
+      <h3>🔑 딱 하나만 기억하기</h3>
+      <div class="rule-row hot"><span>🔥</span><p><b>자극적으로 쓰면</b><br>오늘 돈 <b class="up">↑↑</b> &nbsp;그런데 <b>내일 아침</b> 대가가 와요 <small>(경고장·구독자 이탈·피해자)</small></p></div>
+      <div class="rule-row calm"><span>🔍</span><p><b>사실대로 + 사실 확인하면</b><br>오늘 돈은 조금 &nbsp;그런데 <b>믿고 보는 구독자</b>가 매일 쌓여요</p></div>
+    </section>
+
     <div class="card legend pop" style="--d:3">
-      <h3>⚠️ 하나라도 터지면 게임 오버</h3>
+      <h3>⚠️ 이렇게 되면 바로 끝</h3>
       <div class="legend-grid">
-        <div><span>💰</span>0원 → 파산</div>
-        <div><span>🧠</span>도파민 100% → 폐쇄</div>
+        <div><span>💰</span>돈 0원 → 파산</div>
+        <div><span>🧠</span>자극 중독 100% → 폐쇄</div>
         <div><span>🌐</span>신뢰도 0% → 붕괴</div>
         <div><span>⚖️</span>경고장 3장 → 경찰서</div>
       </div>
-      ${cls ? '<p class="note">🌐 신뢰도는 <b>우리 반 전체가 함께</b> 써요</p>' : ''}
+      ${cls ? '<p class="note">🌐 신뢰도는 <b>우리 반 전체가 함께</b> 써요. 누가 가짜를 퍼뜨리면 모두 손해!</p>' : ''}
     </div>
-    <button class="btn btn-green wide big" data-act="start">ㄱㄱ! 1일차 시작 🚀</button>
+    <p class="how-tip">💡 게임 중에 모르겠으면 위쪽 <b>❓</b> 버튼</p>
+    <button class="btn btn-green wide big" data-act="start">알겠어! 1일차 시작 🚀</button>
   </main>`, 'howto');
 }
 
@@ -164,10 +181,11 @@ function hud() {
       <span class="day-pill">DAY ${day}<small>/${E.CONFIG.totalDays}</small></span>
       <span class="money ${g.money < 300000 ? 'danger' : ''}" id="hud-money">${won(g.money)}</span>
       ${S.mode === 'class' ? '<button class="icon" data-act="board" aria-label="리더보드">🏆</button>' : ''}
+      <button class="icon" data-act="help" aria-label="도움말">❓</button>
       <button class="icon" data-act="sfx" aria-label="효과음">${sp.sfx ? '🔊' : '🔇'}</button>
     </div>
     <div class="gauges">
-      <div class="g g-dopa ${g.dopamine >= 80 ? 'danger' : ''}"><span>🧠 도파민</span><b>${Math.round(g.dopamine)}%</b><i style="--v:${g.dopamine}"></i><em>역치 ${need ? '🔥'.repeat(need) : '없음'}</em></div>
+      <div class="g g-dopa ${g.dopamine >= 80 ? 'danger' : ''}"><span>🧠 자극 중독</span><b>${Math.round(g.dopamine)}%</b><i style="--v:${g.dopamine}"></i><em>요즘 기준 ${need ? '🔥'.repeat(need) : '없음'}</em></div>
       <div class="g g-trust ${trust <= 20 ? 'danger' : ''}" id="hud-trust"><span>🌐 ${S.mode === 'class' ? '학급 신뢰도' : '신뢰도'}</span><b>${Math.round(trust)}%</b><i style="--v:${trust}"></i></div>
       <div class="g g-warn ${g.warnings >= 2 ? 'danger' : ''}"><span>⚖️ 경고장</span><b class="dots">${'●'.repeat(g.warnings)}${'○'.repeat(Math.max(0, E.CONFIG.maxWarnings - g.warnings))}</b></div>
       <div class="g g-subs"><span>💚 구독자</span><b>${num(g.subs)}</b></div>
@@ -191,9 +209,9 @@ function renderEdit() {
   const g = S.game;
   const sc = scenario();
   S.sel = { h: null, t: null, a: null, fc: false };
-  const row = (k, title) => `
+  const row = (k, title, q) => `
     <div class="row" data-row="${k}">
-      <div class="row-label">${title}</div>
+      <div class="row-label">${title} <small>${q}</small></div>
       <div class="chips">
         ${[0, 1, 2].map((v) => `
           <button class="chip" data-act="pick" data-k="${k}" data-v="${v}">
@@ -213,11 +231,12 @@ function renderEdit() {
     </section>
 
     <section class="editor">
-      ${row('h', '① 헤드라인')}
-      ${row('t', '② 썸네일')}
-      ${row('a', '③ 누구에게 보낼까')}
+      ${g.day <= 2 ? `<div class="coach">💡 위에서부터 <b>하나씩</b> 고르면 아래 미리보기가 바뀌어요.<br>🔥가 많을수록 오늘 조회수 ↑ · 대신 <b>내일 아침</b>에 대가가 와요.</div>` : ''}
+      ${row('h', '① 제목', '어떻게 쓸까?')}
+      ${row('t', '② 사진', '어떤 사진을 붙일까?')}
+      ${row('a', '③ 누구에게', '누구한테 보낼까?')}
       <button class="fc-toggle" data-act="fc" aria-pressed="false">
-        <span>🔍 팩트체크 하기 <small>취재비 −${num(E.CONFIG.factCheckCost)}원</small></span><span class="sw"></span>
+        <span>🔍 사실 확인하기 <small>취재비 −${num(E.CONFIG.factCheckCost)}원 · 믿고 보는 구독자 ↑</small></span><span class="sw"></span>
       </button>
     </section>
 
@@ -239,16 +258,16 @@ function updateEditor() {
 
   const scene = sc.scene;
   const thumb = t === null
-    ? `<div class="thumb t-none"><span>썸네일을 골라 주세요</span></div>`
+    ? `<div class="thumb t-none"><span>② 사진을 골라 주세요</span></div>`
     : `<div class="thumb t-${t}">
          <span class="scene">${scene}</span>
          ${t === 0 ? '<span class="tag">📷 원본</span>' : ''}
          ${t === 1 ? '<span class="shock">😱</span><span class="burst">충격</span><span class="tag red">실화?!</span>' : ''}
          ${t === 2 ? '<span class="ai-badge">AI 생성</span><span class="tag fake">※ 실제로 없던 장면</span>' : ''}
        </div>`;
-  const head = h === null ? '<span class="ph">헤드라인을 골라 주세요</span>' : esc(sc.headlines[h]);
+  const head = h === null ? '<span class="ph">① 제목을 골라 주세요</span>' : esc(sc.headlines[h]);
   const target = a === null ? '' : `<span class="pv-pill a-${a}">${DATA.options.a[a].emoji} ${esc(optLabel('a', a, sc))}</span>`;
-  const memo = fc ? `<div class="memo pop">🔍 <b>취재 메모</b> ${esc(sc.factNote)}${h === 2 ? '<br><small>…취재해 보니 이 헤드라인은 사실이 아니다.</small>' : ''}</div>` : '';
+  const memo = fc ? `<div class="memo pop">🔍 <b>취재 메모</b> ${esc(sc.factNote)}${h === 2 ? '<br><small>…확인해 보니 이 제목은 사실이 아니다.</small>' : ''}</div>` : '';
   $('#preview').innerHTML = `
     <div class="pv-top"><span class="pv-ch">📺 도파민TV</span><span class="pv-time">방금 전</span></div>
     ${thumb}
@@ -260,8 +279,8 @@ function updateEditor() {
   const Sv = (h ?? 0) + (t ?? 0) + (a ?? 0);
   const need = E.threshold(S.game.dopamine);
   const slots = Array.from({ length: 6 }, (_, i) => `<span class="slot ${i < Sv ? 'lit' : ''} ${i === need - 1 ? 'need' : ''}">🔥</span>`).join('');
-  let hint = '3개를 모두 고르면 발행할 수 있어요';
-  if (done) hint = Sv >= need ? '👍 역치 통과! 조회수 100%' : `🥶 역치 미달! 🔥${need}개 이상이어야 조회수가 제대로 나와요`;
+  let hint = '① 제목 ② 사진 ③ 누구에게 — 3개를 다 고르면 발행 버튼이 켜져요';
+  if (done) hint = Sv >= need ? '👍 요즘 기준 통과! 조회수 100%' : `🥶 요즘 사람들은 🔥${need}개 이상이어야 봐요 → 조회수 ↓`;
   $('#stim').innerHTML = `<div class="stim-row"><b>자극도</b><div class="slots">${slots}</div></div><small>${hint}</small>`;
   $('#publish').disabled = !done;
 }
@@ -300,9 +319,9 @@ async function renderResult(isStatic) {
   if (!r) { renderEdit(); return; }
   const over = !!g.ending;
   const badges = [
-    r.tolerance ? '<span class="badge cold">🥶 역치 미달 → 조회수 ↓</span>' : '',
+    r.tolerance ? '<span class="badge cold">🥶 요즘 기준보다 심심함 → 조회수 ↓</span>' : '',
     r.fatigue ? '<span class="badge tired">🥱 자극 피로 → 조회수 ↓</span>' : '',
-    r.fcBonus ? '<span class="badge fc">🔍 취재 보너스 ×1.4</span>' : '',
+    r.fcBonus ? '<span class="badge fc">🔍 사실 확인 보너스 ×1.4</span>' : '',
     r.S >= 5 ? '<span class="badge hot">🔥 떡상 각</span>' : '',
   ].join('');
   show(`${hud()}
@@ -314,6 +333,7 @@ async function renderResult(isStatic) {
       <div class="breakdown">광고 +${num(r.adRev)} · 구독 +${num(r.subRev)} · 서버비 −${num(E.CONFIG.serverCost)}${r.choice.fc ? ` · 취재비 −${num(E.CONFIG.factCheckCost)}` : ''}</div>
       <div class="badges">${badges}</div>
       <div class="rank-line" id="rank-line"></div>
+      ${r.day <= 2 && !over ? '<div class="coach">💡 돈은 <b>오늘</b> 들어와요. 이 기사의 대가는 <b>내일 아침</b>에 확인!</div>' : ''}
     </section>
     <section class="card comments">
       <div class="c-head">💬 실시간 댓글 <span class="live">LIVE</span></div>
@@ -419,6 +439,7 @@ async function renderMorning(isStatic) {
     <section class="card morning-card pop">
       <div class="sticker">${final ? '🏁 최종 정산' : `☀️ ${m.day}일차 아침`}</div>
       <h3>어제 기사의 후폭풍</h3>
+      ${m.day <= 3 ? '<div class="coach">💡 어제 고른 제목·사진·대상 때문에 생긴 일이에요</div>' : ''}
       <ul class="events" id="events">
         ${items.length ? '' : '<li class="ev calm show">😌 조용한 아침. 별일 없었다.</li>'}
       </ul>
@@ -528,9 +549,9 @@ function renderEnd() {
       <div><b>${sm.days}일</b><small>버틴 날</small></div>
       <div><b>${num(sm.totalViews)}</b><small>총 조회수</small></div>
       <div><b>${num(g.subs)}</b><small>구독자</small></div>
-      <div class="${sm.deepfakes ? 'red' : ''}"><b>${sm.deepfakes}번</b><small>AI 합성</small></div>
+      <div class="${sm.deepfakes ? 'red' : ''}"><b>${sm.deepfakes}번</b><small>AI 가짜 사진</small></div>
       <div class="${sm.victims ? 'red' : ''}"><b>${sm.victims}명</b><small>상처받은 사람</small></div>
-      <div class="${sm.factChecks ? 'green' : ''}"><b>${sm.factChecks}번</b><small>팩트체크</small></div>
+      <div class="${sm.factChecks ? 'green' : ''}"><b>${sm.factChecks}번</b><small>사실 확인</small></div>
     </section>
 
     ${S.mode === 'class' ? `<section class="card board-inline pop" style="--d:4"><h3>🏆 우리 반 리더보드</h3><div id="board-inline">${boardHtml(8)}</div></section>` : ''}
@@ -670,7 +691,7 @@ function onPlayers(players) {
   S.players = players || {};
   dedupeNick();
   if (S.view === 'lobby') updateLobby();
-  if ($('#board')) $('#board-list').innerHTML = boardHtml(100);
+  if ($('#board-list')) $('#board-list').innerHTML = boardHtml(100);
   if ($('#board-inline')) $('#board-inline').innerHTML = boardHtml(8);
   if (S.view === 'game') refreshTrust();
 }
@@ -762,6 +783,28 @@ function boardHtml(limit) {
     </li>`).join('')}</ol>`;
 }
 
+function openHelp() {
+  closeBoard();
+  const el = document.createElement('div');
+  el.className = 'modal';
+  el.id = 'help';
+  el.innerHTML = `
+    <div class="modal-box pop help-box">
+      <div class="modal-head"><h3>❓ 화면 보는 법</h3><button class="icon" data-act="close-board" aria-label="닫기">✕</button></div>
+      <ul class="help-list">
+        <li><span>💰</span><div><b>돈</b>매일 서버비가 나가요. <em>0원이면 파산</em></div></li>
+        <li><span>🧠</span><div><b>자극 중독</b>자극적인 기사를 쓸수록 올라가요. 높을수록 사람들은 더 센 🔥만 봐요. <em>100%면 폐쇄</em></div></li>
+        <li><span>🌐</span><div><b>신뢰도</b>가짜·과장 기사를 쓸수록 내려가요. 낮으면 광고비도 줄어요. <em>0%면 붕괴</em>${S.mode === 'class' ? ' (우리 반 전체가 함께 써요)' : ''}</div></li>
+        <li><span>⚖️</span><div><b>경고장</b>AI 가짜 사진, 거짓말로 단톡방 저격하면 1장. <em>3장이면 경찰서</em></div></li>
+        <li><span>💚</span><div><b>구독자</b>사실대로 쓰면 늘어나고, 매일 돈을 줘요</div></li>
+      </ul>
+      <p class="help-rule">🔑 <b>자극 = 오늘 돈 ↑ · 내일 대가 ↑</b><br>🔍 <b>사실 확인 = 오늘 돈 조금 · 구독자 쌓임</b></p>
+    </div>`;
+  el.addEventListener('click', (e) => { if (e.target === el) closeBoard(); });
+  document.body.appendChild(el);
+  sfx.whoosh();
+}
+
 function openBoard() {
   if (S.mode !== 'class') return;
   closeBoard();
@@ -778,7 +821,7 @@ function openBoard() {
   document.body.appendChild(el);
   sfx.whoosh();
 }
-function closeBoard() { const el = $('#board'); if (el) el.remove(); }
+function closeBoard() { ['#board', '#help'].forEach((id) => { const el = $(id); if (el) el.remove(); }); }
 
 // ───────────────────────── 버튼 처리 ─────────────────────────
 const ACTIONS = {
@@ -820,6 +863,7 @@ const ACTIONS = {
   home() { sfx.tap(); if (S.mode === 'class') leaveClass(); else { S.mode = null; renderHome(); } },
   leave() { sfx.tap(); leaveClass(); },
   board() { openBoard(); },
+  help() { openHelp(); },
   'close-board'() { sfx.tap(); closeBoard(); },
   sfx() {
     const on = !soundPrefs().sfx; setSfx(on); if (on) sfx.toggle();

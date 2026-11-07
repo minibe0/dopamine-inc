@@ -39,10 +39,10 @@ export function harmAlerts(prev, next, myUid) {
 }
 
 export const ALERT_TEXT = {
-  deepfake: '🚨 익명의 편집장이 AI 합성 사진을 퍼뜨렸다!',
+  deepfake: '🚨 익명의 편집장이 AI 가짜 사진을 퍼뜨렸다!',
   defame: '⚖️ 익명의 편집장이 거짓 소문으로 단톡방을 저격했다!',
   bully: '💔 익명의 편집장 기사 때문에 상처받은 친구가 생겼다!',
-  extreme: '📢 익명의 편집장이 극단 선동 기사를 냈다!',
+  extreme: '📢 익명의 편집장이 과장·거짓 기사를 냈다!',
 };
 
 // 교사용 통계
@@ -81,7 +81,7 @@ export function classStats(players, choices) {
   };
   const insights = [];
   const peak = perDay.filter((r) => r.n >= 1).sort((a, b) => b.deepfake / b.n - a.deepfake / a.n)[0];
-  if (peak && peak.deepfake > 0) insights.push(`우리 반의 ${Math.round((peak.deepfake / peak.n) * 100)}%가 ${peak.day}일차에 AI 합성 사진을 썼습니다.`);
+  if (peak && peak.deepfake > 0) insights.push(`우리 반의 ${Math.round((peak.deepfake / peak.n) * 100)}%가 ${peak.day}일차에 AI 가짜 사진을 썼습니다.`);
   const early = leaderAt(2) || leaderAt(1);
   if (early && players[early.uid]) {
     const p = players[early.uid];

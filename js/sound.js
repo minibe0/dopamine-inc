@@ -51,7 +51,7 @@ function noise(dur, { vol = 0.2, at = 0, hp = 1000, dest } = {}) {
   src.start(t);
 }
 
-const buzz = (ms) => { try { if (prefs.sfx) navigator.vibrate?.(ms); } catch { /* 일부 기기 미지원 */ } };
+const buzz = (ms) => { try { if (prefs.sfx && navigator.userActivation?.hasBeenActive) navigator.vibrate?.(ms); } catch { /* 일부 기기 미지원 */ } };
 
 export const sfx = {
   tap:     () => tone(520, 0.06, { type: 'square', vol: 0.08 }),

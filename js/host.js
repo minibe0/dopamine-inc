@@ -197,11 +197,11 @@ function liveHtml() {
 function debriefHtml() {
   const s = classStats(H.players, H.choices);
   const metrics = [
-    ['deepfake', '🤖 AI 합성'],
-    ['extreme', '📢 극단 선동'],
+    ['deepfake', '🤖 AI 가짜 사진'],
+    ['extreme', '📢 과장·거짓 제목'],
     ['target', '🎯 단톡방 저격'],
-    ['rage', '😡 분노 타겟팅'],
-    ['fc', '🔍 팩트체크'],
+    ['rage', '😡 화난 사람들에게'],
+    ['fc', '🔍 사실 확인'],
   ];
   const cell = (r, k) => {
     if (!r.n) return '<td class="na">·</td>';

@@ -16,6 +16,7 @@ body.about { font-size: 17px; }
 .ab-sec h1 { margin: 0; font-size: clamp(30px, 4.4vw, 52px); line-height: 1.15; font-weight: 900; letter-spacing: -1.5px; }
 .ab-sec h1 em { font-style: normal; color: var(--green); }
 .ab-h2 { margin: 8px 0 0; font-size: 22px; }
+.ab-lead { margin: -4px 0 0; font-size: 20px; font-weight: 800; color: var(--yellow); }
 .ab-card { background: var(--paper); color: var(--ink); border: var(--b); border-radius: 16px; box-shadow: var(--sh); padding: 16px; }
 .ab-card h3 { margin: 0 0 8px; font-size: 20px; }
 .big-e { font-size: 40px; display: block; line-height: 1.1; }
