@@ -44,6 +44,8 @@ const playerCount = () => Math.max(1, Object.keys(S.players || {}).length);
 const liveTrust = () => (S.mode === 'class' ? E.classTrust(S.choices, playerCount()) : S.game.trust);
 const fires = (v) => (v === 0 ? '<i class="ice">🧊</i>' : '🔥'.repeat(v));
 const isGood = (key) => !!(E.ENDINGS[key] && E.ENDINGS[key].good);
+// 내 채널 이름: 닉네임에서 끝 숫자를 뺀 뒤 TV (예: 네온 너구리 07 → 네온 너구리TV)
+const channelName = () => `${String((S.game && S.game.nick) || profile().nick).replace(/\s*\d+$/, '')}TV`;
 
 function show(html, view) {
   S.token++;
@@ -269,7 +271,7 @@ function updateEditor() {
   const target = a === null ? '' : `<span class="pv-pill a-${a}">${DATA.options.a[a].emoji} ${esc(optLabel('a', a, sc))}</span>`;
   const memo = fc ? `<div class="memo pop">🔍 <b>취재 메모</b> ${esc(sc.factNote)}${h === 2 ? '<br><small>…확인해 보니 이 제목은 사실이 아니다.</small>' : ''}</div>` : '';
   $('#preview').innerHTML = `
-    <div class="pv-top"><span class="pv-ch">📺 도파민TV</span><span class="pv-time">방금 전</span></div>
+    <div class="pv-top"><span class="pv-ch">📺 ${esc(channelName())}</span><span class="pv-time">방금 전</span></div>
     ${thumb}
     <div class="pv-head h-${h ?? 'x'}">${head}</div>
     <div class="pv-meta">${target}</div>
@@ -336,7 +338,7 @@ async function renderResult(isStatic) {
       ${r.day <= 2 && !over ? '<div class="coach">💡 돈은 <b>오늘</b> 들어와요. 이 기사의 대가는 <b>내일 아침</b>에 확인!</div>' : ''}
     </section>
     <section class="card comments">
-      <div class="c-head">💬 실시간 댓글 <span class="live">LIVE</span></div>
+      <div class="c-head">💬 구독자 반응 <span class="fake-tag">가상</span></div>
       <ul id="c-list"></ul>
     </section>
     <button class="btn ${over ? 'btn-red' : 'btn-green'} wide big" data-act="next" id="next" ${isStatic ? '' : 'disabled'}>${over ? '결과 보기 💀' : '다음 날 ☀️'}</button>
